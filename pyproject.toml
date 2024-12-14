@@ -3,7 +3,7 @@ requires = ["maturin>=1.7,<2.0"]
 build-backend = "maturin"
 
 [project]
-name = "rspyai-rs"
+name = "rspyai"
 requires-python = ">=3.12"
 classifiers = [
     "Programming Language :: Rust",
@@ -14,12 +14,11 @@ dynamic = ["version"]
 dependencies = [
     "maturin",
     "pydantic-ai-slim",
+    "pyright",
     "textual",
-    "rspyai@git+https://github.com/zzstoatzz/rspyai.git@main#python/rspyai",
+    "rspyai@git+https://github.com/zzstoatzz/rspyai.git@main#python=rspyai",
 ]
 
-
-scripts = { "tui" = "python -m rspyai.main" }
 
 [tool.maturin]
 features = ["pyo3/extension-module"]
@@ -61,9 +60,3 @@ typeCheckingMode = "strict"
 reportMissingTypeStubs = false
 reportUnnecessaryIsInstance = false
 reportUnnecessaryTypeIgnoreComment = true
-
-[tool.uv.sources]
-rspyai = { workspace = true }
-
-[tool.uv.workspace]
-members = ["rspyai"]

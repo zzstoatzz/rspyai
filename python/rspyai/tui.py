@@ -44,3 +44,7 @@ class FunctionBrowser(App[None]):
 def main():
     app = FunctionBrowser()
     app.run()
+
+
+if __name__ == "__main__":
+    main()
