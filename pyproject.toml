@@ -1,0 +1,69 @@
+[build-system]
+requires = ["maturin>=1.7,<2.0"]
+build-backend = "maturin"
+
+[project]
+name = "rspyai-rs"
+requires-python = ">=3.12"
+classifiers = [
+    "Programming Language :: Rust",
+    "Programming Language :: Python :: Implementation :: CPython",
+    "Programming Language :: Python :: Implementation :: PyPy",
+]
+dynamic = ["version"]
+dependencies = [
+    "maturin",
+    "pydantic-ai-slim",
+    "textual",
+    "rspyai@git+https://github.com/zzstoatzz/rspyai.git@main#python/rspyai",
+]
+
+
+scripts = { "tui" = "python -m rspyai.main" }
+
+[tool.maturin]
+features = ["pyo3/extension-module"]
+
+[tool.ruff]
+line-length = 120
+target-version = "py39"
+include = ["python/**/*.py", "tests/**/*.py"]
+
+[tool.ruff.lint]
+extend-select = ["Q", "RUF100", "C90", "UP", "I", "D"]
+flake8-quotes = { inline-quotes = "single", multiline-quotes = "double" }
+isort = { combine-as-imports = true, known-first-party = ["rspyai"] }
+mccabe = { max-complexity = 15 }
+ignore = [
+    # "D100", # ignore missing docstring in module
+    # "D102", # ignore missing docstring in public method
+    # "D104", # ignore missing docstring in public package
+    # "D105", # ignore missing docstring in magic methods
+    # "D107", # ignore missing docstring in __init__ methods
+]
+
+[tool.ruff.lint.pydocstyle]
+convention = "google"
+
+[tool.ruff.format]
+# don't format python in docstrings, pytest-examples takes care of it
+docstring-code-format = false
+quote-style = "single"
+
+[tool.ruff.lint.per-file-ignores]
+"tests/**/*.py" = ["D"]
+"docs/**/*.py" = ["D"]
+"pydantic_ai_examples/**/*.py" = ["D101", "D103"]
+
+[tool.pyright]
+include = ["python/**/*.py"]
+typeCheckingMode = "strict"
+reportMissingTypeStubs = false
+reportUnnecessaryIsInstance = false
+reportUnnecessaryTypeIgnoreComment = true
+
+[tool.uv.sources]
+rspyai = { workspace = true }
+
+[tool.uv.workspace]
+members = ["rspyai"]
