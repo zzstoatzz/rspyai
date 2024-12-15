@@ -2,6 +2,10 @@
 
 A [Textual](https://github.com/textualize/textual/) app to explore your Rust codebase.
 
+
+> [!NOTE]
+> This project is a personal project. It might break for some reason.
+
 <details>
 <summary>overview</summary>
 
@@ -129,9 +133,6 @@ This project combines Rust and Python via [`pyo3`](https://pyo3.rs/v0.23.3/) and
 
 ## usage
 
-> [!NOTE]
-> This project is a personal project. It might break for some reason.
-
 ```bash
 # start the function browser 
 uvx rspyai@latest
@@ -161,4 +162,10 @@ cd rspyai
 
 # Install development dependencies
 uv sync --dev --all-extras
+
+# Rebuild the pyo3 extension
+maturin develop
+
+# Run your local copy of the app
+rspyai
 ```
