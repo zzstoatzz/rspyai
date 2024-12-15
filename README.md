@@ -15,10 +15,10 @@ A [Textual](https://github.com/textualize/textual/) app to explore your Rust cod
 
 ```bash
 # start the function browser
-uvx rspyai
+uvx rspyai@latest
 
 # start the function scanner at a specific path
-uvx rspyai [path_to_rust_project]
+uvx rspyai@latest [path_to_rust_project]
 ```
 
 ### interactive TUI
@@ -28,9 +28,7 @@ the TUI provides:
 - information on each function: signature, docstring, parent file, etc.
 - ai-generated summaries with AI agent summary (`pydantic-ai`)
 
-<p align="center">
-  <img src="https://github.com/user-attachments/assets/f99db3b9-ebeb-4ea1-b73f-69821c1b5cd5" alt="rspyai" />
-</p>
+https://github.com/user-attachments/assets/7fd118c1-3587-4ddc-8aec-a18d88e38f04
 
 ## development
 
