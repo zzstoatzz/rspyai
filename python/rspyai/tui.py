@@ -22,7 +22,7 @@ class FunctionBrowser(App[None]):
 
     CSS = """
     FunctionTree {
-        width: 30%;
+        width: 25%;
         border: solid $primary;
         background: $surface;
     }

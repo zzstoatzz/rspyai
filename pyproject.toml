@@ -10,7 +10,7 @@ classifiers = [
     "Programming Language :: Python :: Implementation :: CPython",
     "Programming Language :: Python :: Implementation :: PyPy",
 ]
-version = "0.1.1"
+version = "0.1.2"
 dependencies = ["pydantic-ai-slim[openai]", "pydantic-settings", "textual"]
 
 
@@ -23,6 +23,7 @@ dev = ["pip", "ruff", "pyright", "ipython", "maturin", "pre-commit"]
 [project.urls]
 Homepage = "https://github.com/zzstoatzz/rspyai"
 Source = "https://github.com/zzstoatzz/rspyai"
+Readme = "https://github.com/zzstoatzz/rspyai/blob/main/README.md"
 
 [tool.maturin]
 python-source = "python"

@@ -31,6 +31,7 @@ class FunctionDetails(Widget):
                         f"Path: {metadata['path']}",
                         '',
                         'Signature:',
+                        '',
                         f"```rust\n{metadata['signature']}\n```",
                         '',
                         'Documentation:',
@@ -41,6 +42,6 @@ class FunctionDetails(Widget):
             details.update(markdown)
 
             # Start summary generation in background
-            summary_widget.generate_summary(metadata['signature'], metadata['doc'])
+            summary_widget.generate_summary(metadata['signature'], metadata['doc'], metadata['path'])
         else:
             details.update(f'Function {name} not found in {path}')

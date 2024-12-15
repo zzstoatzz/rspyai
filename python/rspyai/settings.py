@@ -25,6 +25,8 @@ class Settings(BaseSettings):
             'Liberally use line breaks to make the output more readable. '
             'Dryly summarize the function in a few phrases and then if interesting, '
             'use `inline code` syntax to refer to specific parts of the code. '
+            'Do not lead with a generic summary like "Summary of rust function". '
+            'Just start with the summary.'
         ),
         description='System prompt for ai assistant',
     )

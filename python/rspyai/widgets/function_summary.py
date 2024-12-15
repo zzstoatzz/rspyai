@@ -4,7 +4,6 @@ from pydantic_ai import Agent
 from rich.console import Console, ConsoleOptions, RenderResult
 from rich.markdown import CodeBlock, Markdown
 from rich.syntax import Syntax
-from rich.text import Text
 from textual import work
 from textual.containers import VerticalScroll
 from textual.widget import Widget
@@ -19,7 +18,6 @@ class SimpleCodeBlock(CodeBlock):
     def __rich_console__(self, console: Console, options: ConsoleOptions) -> RenderResult:
         """Render the code block."""
         code = str(self.text).rstrip()
-        yield Text(self.lexer_name, style='dim')
         yield Syntax(
             code,
             self.lexer_name,
@@ -27,7 +25,6 @@ class SimpleCodeBlock(CodeBlock):
             background_color='default',
             word_wrap=True,
         )
-        yield Text(f'/{self.lexer_name}', style='dim')
 
 
 # Use prettier code blocks
@@ -64,9 +61,16 @@ class FunctionSummaryWidget(Widget):
             yield Static(id='function-summary', expand=True)
 
     @work(thread=True)
-    async def generate_summary(self, signature: str, docs: str) -> None:
-        """Generate and display a summary for the function."""
-        task_id = f'{signature}:{docs}'
+    async def generate_summary(self, signature: str, docs: str, file_path: str) -> None:
+        """Generate and display a summary for the function.
+
+        Args:
+            signature: The function signature
+            docs: The function documentation
+            file_path: The absolute path to the source file
+        """
+        # Include file_path in the cache key to avoid collisions
+        task_id = f'{file_path}:{signature}:{docs}'
         self._current_task = task_id
 
         summary_view = self.query_one('#function-summary', expect_type=Static)
@@ -80,7 +84,7 @@ class FunctionSummaryWidget(Widget):
         summary_view.update(Markdown(self.default_loading_message))
 
         prompt = f"""
-        Analyze this Rust function:
+        Analyze this Rust function from {file_path}:
 
         ```rust
         {signature}
