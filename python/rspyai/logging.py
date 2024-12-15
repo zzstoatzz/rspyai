@@ -16,11 +16,11 @@ def get_logger(name: str) -> logging.Logger:
     Returns:
         a configured logger instance
     """
-    return logging.getLogger(f"rspyai.{name}")
+    return logging.getLogger(f'rspyai.{name}')
 
 
 def configure_logging(
-    level: Literal["DEBUG", "INFO", "WARNING", "ERROR", "CRITICAL"] = "INFO",
+    level: Literal['DEBUG', 'INFO', 'WARNING', 'ERROR', 'CRITICAL'] = 'INFO',
 ) -> None:
     """Configure logging for rspyai.
 
@@ -29,6 +29,6 @@ def configure_logging(
     """
     logging.basicConfig(
         level=level,
-        format="%(message)s",
+        format='%(message)s',
         handlers=[RichHandler(console=Console(stderr=True), rich_tracebacks=True)],
     )

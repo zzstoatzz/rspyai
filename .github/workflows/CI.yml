@@ -12,6 +12,11 @@ on:
       - master
     tags:
       - "*"
+    paths:
+      - "src/**"
+      - "python/**"
+      - "pyproject.toml"
+      - "uv.lock"
   pull_request:
   workflow_dispatch:
 
