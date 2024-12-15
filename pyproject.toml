@@ -4,7 +4,7 @@ build-backend = "maturin"
 
 [project]
 name = "rspyai"
-version = "0.0.1"
+version = "0.0.2"
 description = "explore rust functions in a TUI with an AI"
 requires-python = ">=3.12"
 authors = [{ name = "Nathan Nowack", email = "zzstoatzz@protonmail.com" }]
