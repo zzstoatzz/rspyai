@@ -28,9 +28,7 @@ The TUI provides:
 - Detailed function information
 - AI-generated summaries with AI agent summary (`pydantic-ai`)
 
-<p align="center">
-  <img src="./assets/rspyai.gif" alt="rspyai" />
-</p>
+![rspyai](https://github.com/user-attachments/assets/c4c938b5-98c6-4597-bb97-7db54dd6ed98)
 
 ## Development
 
