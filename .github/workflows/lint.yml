@@ -30,4 +30,4 @@ jobs:
           enable-cache: true
 
       - name: Run pyright
-        run: uvx --with-editable . pyright
+        run: uvx --python 3.12 --with-editable . pyright
