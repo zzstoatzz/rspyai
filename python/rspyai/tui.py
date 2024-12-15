@@ -5,6 +5,7 @@ from textual.containers import Horizontal
 from textual.widgets import Footer, Header, Tree
 
 from rspyai.logging import get_logger
+from rspyai.settings import get_settings
 from rspyai.widgets.function_details import FunctionDetails
 from rspyai.widgets.function_tree import FunctionData, FunctionTree
 
@@ -31,19 +32,23 @@ class FunctionBrowser(App[None]):
     }
 
     #function-details {
-        height: 60%;
+        height: 50%;
         border: solid $primary;
         background: $surface;
         padding: 1;
         overflow-y: auto;
     }
 
-    #function-summary {
-        height: 40%;
+    #summary-scroll {
+        height: 50%;
         border: solid $primary-darken-2;
         background: $surface;
         padding: 1;
         overflow-y: auto;
+    }
+
+    #function-summary {
+        width: 100%;
     }
 
     Input {
@@ -63,6 +68,9 @@ class FunctionBrowser(App[None]):
         """Initialize the FunctionBrowser."""
         super().__init__()
         self.root_path = root_path
+        self.settings = get_settings()
+        if self.settings.debug:
+            logger.setLevel('DEBUG')
 
     def compose(self) -> ComposeResult:
         """Create child widgets for the app."""

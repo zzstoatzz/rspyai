@@ -10,6 +10,8 @@ from textual.containers import VerticalScroll
 from textual.widget import Widget
 from textual.widgets import Static
 
+from rspyai.settings import get_settings
+
 
 class SimpleCodeBlock(CodeBlock):
     """Prettier code blocks for markdown."""
@@ -39,19 +41,22 @@ class FunctionSummaryWidget(Widget):
         """Initialize the widget."""
         super().__init__()
         self._current_task: str | None = None
+        self._message_cache: dict[str, str] = {}
 
     @property
     def summary_agent(self) -> Agent[None, str]:
         """Get the agent."""
+        settings = get_settings()
         return Agent(
-            'openai:gpt-4o',
-            result_type=str,
-            system_prompt=(
-                'You are hyper-concise and dry Marvin, the paranoid android. '
-                'Dryly summarize the function in a few phrases. '
-                'Use `inline code` syntax when referring to specific parts of the code. '
-            ),
+            settings.ai_model,
+            system_prompt=settings.ai_system_prompt,
         )
+
+    @property
+    def default_loading_message(self) -> str:
+        """Get the default loading message."""
+        settings = get_settings()
+        return settings.default_loading_message
 
     def compose(self):
         """Create child widgets."""
@@ -65,10 +70,17 @@ class FunctionSummaryWidget(Widget):
         self._current_task = task_id
 
         summary_view = self.query_one('#function-summary', expect_type=Static)
-        summary_view.update(Markdown('*Here I am, brain the size of a planet, analyzing your code...*'))
+
+        # Check cache first
+        if cached_message := self._message_cache.get(task_id):
+            summary_view.update(Markdown(cached_message))
+            summary_view.scroll_visible()
+            return
+
+        summary_view.update(Markdown(self.default_loading_message))
 
         prompt = f"""
-        Analyze this depressingly simple Rust function:
+        Analyze this Rust function:
 
         ```rust
         {signature}
@@ -80,14 +92,19 @@ class FunctionSummaryWidget(Widget):
 
         try:
             async with self.summary_agent.run_stream(prompt) as result:
+                final_message = ''
                 async for message in result.stream():
                     if self._current_task != task_id:
                         return
+                    final_message = message
                     summary_view.update(Markdown(message))
                     summary_view.scroll_visible()
 
+                # Cache the final message
+                self._message_cache[task_id] = final_message
+
         except Exception as e:
             if self._current_task == task_id:
-                summary_view.update(
-                    Markdown("*Failed to generate summary. Not that I'm surprised.* " f"Here's why: {str(e)}")
-                )
+                error_message = f'*Failed to generate summary* {str(e)}'
+                summary_view.update(Markdown(error_message))
+                self._message_cache[task_id] = error_message
