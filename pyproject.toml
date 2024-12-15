@@ -20,6 +20,10 @@ rspyai = "rspyai.tui:main"
 [project.optional-dependencies]
 dev = ["pip", "ruff", "pyright", "ipython", "maturin", "pre-commit"]
 
+[project.urls]
+Homepage = "https://github.com/zzstoatzz/rspyai"
+Source = "https://github.com/zzstoatzz/rspyai"
+
 [tool.maturin]
 python-source = "python"
 module-name = "rspyai"
@@ -51,10 +55,9 @@ convention = "google"
 docstring-code-format = false
 quote-style = "single"
 
-[tool.ruff.lint.per-file-ignores]
-"tests/**/*.py" = ["D"]
-"docs/**/*.py" = ["D"]
-"pydantic_ai_examples/**/*.py" = ["D101", "D103"]
+# [tool.ruff.lint.per-file-ignores]
+# "tests/**/*.py" = ["D"]
+# "docs/**/*.py" = ["D"]
 
 [tool.pyright]
 include = ["python/**/*.py"]
