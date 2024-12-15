@@ -1,4 +1,5 @@
 use std::fs;
+use std::io;
 use std::path::Path;
 use syn::{parse_file, Item};
 use walkdir::WalkDir;
@@ -9,31 +10,24 @@ use crate::function::RustFunction;
 pub struct ProjectScanner;
 
 impl ProjectScanner {
-    pub fn scan_directory(root_path: &Path) -> Vec<RustFunction> {
+    pub fn scan_directory(dir_path: &Path) -> io::Result<Vec<RustFunction>> {
         let mut functions = Vec::new();
 
-        for entry in WalkDir::new(root_path)
-            .follow_links(true)
-            .into_iter()
-            .filter_entry(|e| !Self::should_skip(e.path()))
-            .flatten()
-        {
-            let path = entry.path();
-            if path.extension().and_then(|s| s.to_str()) == Some("rs") {
-                if let Some(mut file_functions) = Self::scan_file(path) {
-                    functions.append(&mut file_functions);
+        if dir_path.is_dir() {
+            for entry in WalkDir::new(dir_path)
+                .follow_links(true)
+                .into_iter()
+                .filter_map(|e| e.ok())
+            {
+                let path = entry.path();
+                if path.extension().map_or(false, |ext| ext == "rs") {
+                    if let Some(file_functions) = Self::scan_file(path) {
+                        functions.extend(file_functions);
+                    }
                 }
             }
         }
-
-        functions
-    }
-
-    fn should_skip(path: &Path) -> bool {
-        path.components().any(|c| {
-            let s = c.as_os_str().to_string_lossy();
-            s == "target" || s.starts_with('.')
-        })
+        Ok(functions)
     }
 
     pub fn scan_file(path: &Path) -> Option<Vec<RustFunction>> {

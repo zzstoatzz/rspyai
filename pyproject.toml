@@ -11,14 +11,14 @@ classifiers = [
     "Programming Language :: Python :: Implementation :: PyPy",
 ]
 dynamic = ["version"]
-dependencies = ["pydantic-ai-slim", "textual"]
+dependencies = ["pydantic-ai-slim[openai]", "textual"]
 
 
 [project.scripts]
 rspyai = "rspyai.tui:main"
 
 [project.optional-dependencies]
-dev = ["pip", "ruff", "pyright", "ipython", "maturin"]
+dev = ["pip", "ruff", "pyright", "ipython", "maturin", "pre-commit"]
 
 [tool.maturin]
 python-source = "python"

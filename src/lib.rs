@@ -1,4 +1,3 @@
-use debug::debug_log;
 use pyo3::prelude::*;
 use pyo3::types::{PyDict, PyList};
 use std::collections::HashMap;
@@ -21,17 +20,15 @@ fn scan_rust_project(py: Python<'_>, file_path: Option<&str>) -> PyResult<Py<PyL
         None => Path::new("src"),
     };
 
-    for func in ProjectScanner::scan_directory(root_path) {
-        let dict = PyDict::new(py);
-        debug_log(&format!("Function: {}", func.name));
-        debug_log(&format!("Signature: {}", func.signature));
-        debug_log(&format!("Doc: {}", func.doc));
-
-        dict.set_item("name", func.name)?;
-        dict.set_item("doc", func.doc)?;
-        dict.set_item("signature", func.signature)?;
-        dict.set_item("path", func.path)?;
-        functions.append(dict)?;
+    if let Ok(rust_functions) = ProjectScanner::scan_directory(root_path) {
+        for func in rust_functions {
+            let dict = PyDict::new(py);
+            dict.set_item("name", func.name)?;
+            dict.set_item("doc", func.doc)?;
+            dict.set_item("signature", func.signature)?;
+            dict.set_item("path", func.path)?;
+            functions.append(dict)?;
+        }
     }
 
     Ok(functions.into())
