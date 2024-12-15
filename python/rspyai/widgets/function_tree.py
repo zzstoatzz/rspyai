@@ -53,9 +53,15 @@ class FunctionTree(Widget):
         logger.debug(f'Scanning project at {self.root_path}')
         self._tree.clear()
 
+        functions = scan_rust_project(self.root_path)
+
+        if not functions:
+            self._tree.root.add(f'no rust functions found in {self.root_path}')
+            return
+
         # Group functions by file
         functions_by_file: dict[str, list[FunctionData]] = {}
-        for func in scan_rust_project(self.root_path):
+        for func in functions:
             path = func['path']
             if path not in functions_by_file:
                 functions_by_file[path] = []
@@ -69,3 +75,37 @@ class FunctionTree(Widget):
                 node.data = FunctionData(path=func['path'], name=func['name'])
 
         self._tree.root.expand()
+
+    def on_input_changed(self, event: Input.Changed) -> None:
+        """Handle search input changes."""
+        search_term = event.value.lower()
+
+        # Skip if tree isn't initialized
+        if not self._tree:
+            return
+
+        # Show all items if search is empty
+        if not search_term:
+            for file_node in self._tree.root.children:
+                file_node.display = True
+                file_node.collapse()
+                for func_node in file_node.children:
+                    func_node.display = True
+            return
+
+        # Walk through all nodes and hide/show based on search
+        for file_node in self._tree.root.children:
+            has_matches = False
+            file_node.display = True
+
+            # Check function nodes
+            for func_node in file_node.children:
+                matches = search_term in str(func_node.label).lower()
+                func_node.display = matches
+                has_matches = has_matches or matches
+
+            # Expand file node if it has matches, collapse if not
+            if has_matches:
+                file_node.expand()
+            else:
+                file_node.collapse()

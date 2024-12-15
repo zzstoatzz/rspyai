@@ -28,11 +28,13 @@ class FunctionBrowser(App[None]):
     }
 
     FunctionDetails {
-        width: 70%;
+        width: 1fr;
+        margin-left: 1;
+        height: 100%;
     }
 
     #function-details {
-        height: 50%;
+        height: 1fr;
         border: solid $primary;
         background: $surface;
         padding: 1;
@@ -40,8 +42,8 @@ class FunctionBrowser(App[None]):
     }
 
     #summary-scroll {
-        height: 50%;
-        border: solid $primary-darken-2;
+        height: 1fr;
+        border: solid $primary;
         background: $surface;
         padding: 1;
         overflow-y: auto;
@@ -49,6 +51,7 @@ class FunctionBrowser(App[None]):
 
     #function-summary {
         width: 100%;
+        height: auto;
     }
 
     Input {
@@ -73,7 +76,7 @@ class FunctionBrowser(App[None]):
             logger.setLevel('DEBUG')
 
     def compose(self) -> ComposeResult:
-        """Create child widgets for the app."""
+        """Create child widgets."""
         yield Header()
         with Horizontal():
             tree = FunctionTree()

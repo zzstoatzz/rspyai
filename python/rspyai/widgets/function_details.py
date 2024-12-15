@@ -14,8 +14,10 @@ class FunctionDetails(Widget):
 
     def compose(self):
         """Create child widgets."""
-        with Vertical():
-            yield Static(id='function-details')
+        with Vertical(id='function-details-container'):
+            yield Static('select a function to view details', id='function-details')
+        with Vertical(id='summary-container'):
+            yield Static('function summary', classes='pane-title')
             yield FunctionSummaryWidget()
 
     def show_function(self, path: str, name: str) -> None:
