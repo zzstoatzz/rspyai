@@ -6,7 +6,10 @@ A [Textual](https://github.com/textualize/textual/) app to explore your Rust cod
 ## requirements
 
 - [uv](https://docs.astral.sh/uv/) to bootstrap a python environment
-- an [`OPENAI_API_KEY`](https://platform.openai.com/docs/api-reference/authentication) set in your environment
+- an api key for an [LLM provider supported by `pydantic-ai`](https://ai.pydantic.dev/models/) that supports streaming responses
+
+> [!IMPORTANT]
+> by default, `rspyai` uses `openai:gpt-4o` and requires an `OPENAI_API_KEY` set in your environment.
 
 ## usage
 
@@ -14,11 +17,14 @@ A [Textual](https://github.com/textualize/textual/) app to explore your Rust cod
 > This project is a personal project. It might break for some reason.
 
 ```bash
-# start the function browser
+# start the function browser 
 uvx rspyai@latest
 
 # start the function scanner at a specific path
 uvx rspyai@latest [path_to_rust_project]
+
+# start the function browser using a different ai model
+RSPYAI_AI_MODEL=ollama:qwen2.5 uvx rspyai@latest
 ```
 
 ### interactive TUI
