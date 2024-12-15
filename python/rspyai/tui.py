@@ -19,7 +19,7 @@ class FunctionBrowser(App[None]):
 
     CSS = """
     FunctionTree {
-        width: 25%;
+        width: 33%;
         border: solid $primary;
         background: $surface;
     }
