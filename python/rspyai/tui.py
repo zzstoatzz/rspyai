@@ -29,6 +29,11 @@ class FunctionBrowser(App[None]):
         ('r', 'refresh', 'Rescan Project'),
     ]
 
+    def __init__(self, root_path: str = '.'):
+        """Initialize the FunctionBrowser."""
+        super().__init__()
+        self.root_path = root_path
+
     def compose(self) -> ComposeResult:
         """Create child widgets for the app."""
         yield Header()
@@ -55,26 +60,20 @@ class FunctionBrowser(App[None]):
 
         # Group functions by file
         functions_by_file: dict[str, list[FunctionData]] = {}
-        for func in scan_rust_project():
+        for func in scan_rust_project(self.root_path):
             path = func['path']
             if path not in functions_by_file:
                 functions_by_file[path] = []
             functions_by_file[path].append({'path': func['path'], 'name': func['name']})
 
-        # Add to tree grouped by file
+        # Add to tree grouped by file and expand
         for file_path, functions in functions_by_file.items():
-            file_node = tree.root.add(Path(file_path).name)
+            file_node = tree.root.add(Path(file_path).name, expand=True)  # Expand file nodes
             for func in functions:
                 node = file_node.add(func['name'])
                 node.data = FunctionData(path=func['path'], name=func['name'])
 
-        if tree.root.children:
-            first_node = tree.root.children[0]
-            if first_node.children:
-                first_func = first_node.children[0]
-                metadata = first_func.data
-                if metadata:
-                    self._show_function_details(metadata['path'], metadata['name'])
+        tree.root.expand()  # Expand root node
 
     def _show_function_details(self, path: str, name: str) -> None:
         """Show details for the selected function."""
@@ -111,7 +110,10 @@ class FunctionBrowser(App[None]):
 
 def main():
     """App entrypoint."""
-    app = FunctionBrowser()
+    import sys
+
+    working_dir = sys.argv[1] if len(sys.argv) > 1 else '.'
+    app = FunctionBrowser(working_dir)
     app.run()
 
 
