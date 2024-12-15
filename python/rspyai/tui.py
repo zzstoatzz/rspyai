@@ -4,12 +4,9 @@ from textual.app import App, ComposeResult
 from textual.containers import Horizontal
 from textual.widgets import Footer, Header, Tree
 
-from rspyai.logging import get_logger
 from rspyai.settings import get_settings
 from rspyai.widgets.function_details import FunctionDetails
 from rspyai.widgets.function_tree import FunctionData, FunctionTree
-
-logger = get_logger(__name__)
 
 
 class FunctionBrowser(App[None]):
@@ -70,8 +67,6 @@ class FunctionBrowser(App[None]):
         super().__init__()
         self.root_path = root_path
         self.settings = get_settings()
-        if self.settings.debug:
-            logger.setLevel('DEBUG')
 
     def compose(self) -> ComposeResult:
         """Create child widgets."""

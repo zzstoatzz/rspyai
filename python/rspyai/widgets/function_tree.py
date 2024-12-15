@@ -9,9 +9,6 @@ from textual.widget import Widget
 from textual.widgets import Input, Tree
 
 from rspyai import scan_rust_project
-from rspyai.logging import get_logger
-
-logger = get_logger(__name__)
 
 
 class FunctionData(TypedDict):
@@ -47,10 +44,8 @@ class FunctionTree(Widget):
             self.root_path = root_path
 
         if not self._tree:
-            logger.debug('Tree not initialized yet')
             return
 
-        logger.debug(f'Scanning project at {self.root_path}')
         self._tree.clear()
 
         functions = scan_rust_project(self.root_path)

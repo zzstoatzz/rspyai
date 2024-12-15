@@ -1,9 +1,10 @@
 """Global settings for rspyai."""
 
 from functools import lru_cache
-from typing import ClassVar, Literal
+from typing import ClassVar
 
 from pydantic import Field
+from pydantic_ai.models import KnownModelName
 from pydantic_settings import BaseSettings, SettingsConfigDict
 
 
@@ -14,7 +15,7 @@ class Settings(BaseSettings):
         env_prefix='RSPYAI_', env_file='.env', extra='ignore'
     )
 
-    ai_model: Literal['openai:gpt-4o'] = Field(
+    ai_model: KnownModelName = Field(
         default='openai:gpt-4o',
         description='OpenAI model to use for function analysis',
     )
@@ -34,12 +35,6 @@ class Settings(BaseSettings):
     default_loading_message: str = Field(
         default='*Starting AI analysis...*',
         description='Default loading message for ai assistant',
-    )
-
-    # Debug settings
-    debug: bool = Field(
-        default=False,
-        description='Enable debug logging',
     )
 
 
