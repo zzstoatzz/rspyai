@@ -61,12 +61,13 @@ class FunctionSummaryWidget(Widget):
             yield Static(id='function-summary', expand=True)
 
     @work(thread=True)
-    async def generate_summary(self, signature: str, docs: str, file_path: str) -> None:
+    async def generate_summary(self, signature: str, docs: str, source: str, file_path: str) -> None:
         """Generate and display a summary for the function.
 
         Args:
             signature: The function signature
             docs: The function documentation
+            source: The function source code
             file_path: The absolute path to the source file
         """
         # Include file_path in the cache key to avoid collisions
@@ -86,12 +87,12 @@ class FunctionSummaryWidget(Widget):
         prompt = f"""
         Analyze this Rust function from {file_path}:
 
+        Source code:
         ```rust
-        {signature}
+        {source}
         ```
 
-        Documentation (if you can call it that):
-        {docs}
+        {f"Documentation:\n{docs}" if docs else ''}
         """
 
         try:

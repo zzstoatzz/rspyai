@@ -27,6 +27,7 @@ fn scan_rust_project(py: Python<'_>, file_path: Option<&str>) -> PyResult<Py<PyL
             dict.set_item("doc", func.doc)?;
             dict.set_item("signature", func.signature)?;
             dict.set_item("path", func.path)?;
+            dict.set_item("source", func.source)?;
             functions.append(dict)?;
         }
     }
@@ -45,6 +46,7 @@ fn get_function_metadata(path: &str, name: &str) -> PyResult<HashMap<String, Str
         if let Some(func) = functions.into_iter().find(|f| f.name == name) {
             metadata.insert("signature".to_string(), func.signature);
             metadata.insert("doc".to_string(), func.doc);
+            metadata.insert("source".to_string(), func.source);
             metadata.insert("status".to_string(), "Available".to_string());
             return Ok(metadata);
         }

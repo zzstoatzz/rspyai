@@ -9,6 +9,7 @@ class RustFunctionMetadata(TypedDict):
     path: str
     signature: str
     doc: str
+    source: str
 
 class FunctionMetadataResponse(RustFunctionMetadata):
     """Response from get_function_metadata including status."""

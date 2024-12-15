@@ -35,7 +35,6 @@ class FunctionBrowser(App[None]):
 
     #function-details {
         height: 1fr;
-        border: solid $primary;
         background: $surface;
         padding: 1;
         overflow-y: auto;
@@ -43,7 +42,6 @@ class FunctionBrowser(App[None]):
 
     #summary-scroll {
         height: 1fr;
-        border: solid $primary;
         background: $surface;
         padding: 1;
         overflow-y: auto;

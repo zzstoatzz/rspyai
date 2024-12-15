@@ -1,20 +1,31 @@
-use quote::ToTokens;
-use syn::{ItemFn, Visibility};
+use syn::{File, ItemFn, Visibility};
 
 pub struct RustFunction {
     pub name: String,
     pub path: String,
     pub signature: String,
     pub doc: String,
+    pub source: String,
 }
 
 impl RustFunction {
     pub fn new(func: &ItemFn, path: String) -> Self {
+        let mut func_clone = func.clone();
+        // Keep the original attributes (like doc comments)
+        func_clone.attrs = func.attrs.clone();
+
+        let file = File {
+            shebang: None,
+            attrs: vec![],
+            items: vec![syn::Item::Fn(func_clone)],
+        };
+
         Self {
             name: func.sig.ident.to_string(),
             path,
             signature: Self::format_signature(func),
             doc: Self::extract_doc_comment(func),
+            source: prettyplease::unparse(&file),
         }
     }
 
@@ -44,23 +55,18 @@ impl RustFunction {
     }
 
     fn format_signature(func: &ItemFn) -> String {
-        let vis = &func.vis;
-        let name = &func.sig.ident;
-        let inputs = &func.sig.inputs;
-        let output = &func.sig.output;
+        let mut func_sig = func.clone();
+        func_sig.block = Box::new(syn::Block {
+            brace_token: Default::default(),
+            stmts: vec![],
+        });
 
-        let args = inputs
-            .iter()
-            .map(|arg| arg.to_token_stream().to_string())
-            .collect::<Vec<_>>()
-            .join(", ");
+        let file = File {
+            shebang: None,
+            attrs: vec![],
+            items: vec![syn::Item::Fn(func_sig)],
+        };
 
-        format!(
-            "{} fn {}({}){}",
-            vis.to_token_stream(),
-            name,
-            args,
-            output.to_token_stream()
-        )
+        prettyplease::unparse(&file)
     }
 }

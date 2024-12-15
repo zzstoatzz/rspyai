@@ -80,31 +80,23 @@ class FunctionTree(Widget):
         """Handle search input changes."""
         search_term = event.value.lower()
 
-        # Skip if tree isn't initialized
         if not self._tree:
             return
 
         # Show all items if search is empty
         if not search_term:
             for file_node in self._tree.root.children:
-                file_node.display = True
-                file_node.collapse()
-                for func_node in file_node.children:
-                    func_node.display = True
-            return
+                file_node.expand()
+                return
 
         # Walk through all nodes and hide/show based on search
         for file_node in self._tree.root.children:
             has_matches = False
-            file_node.display = True
 
-            # Check function nodes
             for func_node in file_node.children:
                 matches = search_term in str(func_node.label).lower()
-                func_node.display = matches
                 has_matches = has_matches or matches
 
-            # Expand file node if it has matches, collapse if not
             if has_matches:
                 file_node.expand()
             else:
