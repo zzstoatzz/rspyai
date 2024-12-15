@@ -11,16 +11,18 @@ classifiers = [
     "Programming Language :: Python :: Implementation :: PyPy",
 ]
 dynamic = ["version"]
-dependencies = [
-    "maturin",
-    "pydantic-ai-slim",
-    "pyright",
-    "textual",
-    "rspyai@git+https://github.com/zzstoatzz/rspyai.git@main#python=rspyai",
-]
+dependencies = ["pydantic-ai-slim", "textual"]
 
+
+[project.scripts]
+rspyai = "rspyai.tui:main"
+
+[project.optional-dependencies]
+dev = ["pip", "ruff", "pyright", "ipython", "maturin"]
 
 [tool.maturin]
+python-source = "python"
+module-name = "rspyai"
 features = ["pyo3/extension-module"]
 
 [tool.ruff]

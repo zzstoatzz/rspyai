@@ -1,4 +1,4 @@
 
-from .rspyai import sum_as_string, get_function_metadata
+from .rspyai import scan_rust_project, get_function_metadata
 
-__all__ = ['sum_as_string', 'get_function_metadata']
+__all__ = ['scan_rust_project', 'get_function_metadata']
