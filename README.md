@@ -1,12 +1,12 @@
-# rspyai
+# `rspyai`
 
 A [Textual](https://github.com/textualize/textual/) app to explore your Rust codebase.
 
 
 ## requirements
 
-- [uv](https://docs.astral.sh/uv/)
-- [`OPENAI_API_KEY`](https://platform.openai.com/docs/api-reference/authentication)
+- [uv](https://docs.astral.sh/uv/) to bootstrap a python environment
+- an [`OPENAI_API_KEY`](https://platform.openai.com/docs/api-reference/authentication) set in your environment
 
 ## usage
 
@@ -21,16 +21,18 @@ uvx rspyai
 uvx rspyai [path_to_rust_project]
 ```
 
-### Interactive TUI
+### interactive TUI
 
-The TUI provides:
-- Function tree browser
-- Detailed function information
-- AI-generated summaries with AI agent summary (`pydantic-ai`)
+the TUI provides:
+- function tree browser
+- information on each function: signature, docstring, parent file, etc.
+- ai-generated summaries with AI agent summary (`pydantic-ai`)
 
-![rspyai](https://github.com/user-attachments/assets/c4c938b5-98c6-4597-bb97-7db54dd6ed98)
+<p align="center">
+  <img src="https://github.com/user-attachments/assets/f99db3b9-ebeb-4ea1-b73f-69821c1b5cd5" alt="rspyai" />
+</p>
 
-## Development
+## development
 
 ```bash
 # Clone the repository
