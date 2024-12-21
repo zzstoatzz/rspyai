@@ -4,7 +4,7 @@ A [Textual](https://github.com/textualize/textual/) app to explore your Rust cod
 
 
 > [!NOTE]
-> This project is a personal project. It might break for some reason.
+> This is a [personal project](https://blog.alternatebuild.dev/explore-a-rust-project-in-a-tui-with-ai/). It might break for some reason.
 
 <details>
 <summary>overview</summary>
