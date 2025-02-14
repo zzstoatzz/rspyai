@@ -1,4 +1,4 @@
-# `rspyai`
+# `rspyai`([demo](https://bsky.app/profile/alternatebuild.dev/post/3lde7ougics2k))
 
 A [Textual](https://github.com/textualize/textual/) app to explore your Rust codebase.
 
